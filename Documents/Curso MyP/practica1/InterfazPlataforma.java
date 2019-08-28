@@ -37,11 +37,11 @@ public interface InterfazPlataforma{
   /**
    * Crea las recomendaciones de contenido de la plataforma en su versión básica.
    */
-  public ArrayList<String> recomBasico();
+  public ArrayList<String> recomendacionBasico();
 
   /**
    * Crea las recomendaciones de contenido de la plataforma en su versión premium.
    */
-  public ArrayList<String> recomPremium();
+  public ArrayList<String> recomendacionPremium();
 
 }
