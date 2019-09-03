@@ -12,25 +12,22 @@ public class Spotify extends Plataforma{
    */
   public Spotify(){
     this.setNombre("Spotify");
-    this.setPrecio(0);
-    this.setPrecioPremium(4);
+    this.setPrecio(3);
     this.setUsuarios(new ArrayList<Usuario>());
-    this.setRecomBasico(recomBasico());
-    this.setRecomPremium(recomPremium());
   }
 
   /**
-   * Le notifica al usuario que ocurrió un evento. Ya sea que se efectuó un pago,
-   * o que el usuario fue removido de la plataforma por falta de dinero, etc.
+   * Emite una recomendación de contenido de Spotify hacia el usuario.
    */
-  @Override public void notificar(){
-
+  @Override public String daRecomendacion(int dia){
+    return recomendacionPremium(dia-1);
   }
 
   /**
    * Crea las recomendaciones de contenido de Spotify en su versión básica.
+   * @param dia el día determina que recomendación se emite.
    */
-  @Override public ArrayList<String> recomBasico(){
+  public String recomendacionBasico(int dia){
     ArrayList<String> recomBasico = new ArrayList<String>();
     recomBasico.add("La salvación de la música pop ha llegado. Contrata Spotify" +
     " Premium para disfrutar de lo más nuevo de Charli XCX, 'No Angel', sin anuncios.");
@@ -42,13 +39,14 @@ public class Spotify extends Plataforma{
     " contratando Spotify Premium");
     recomBasico.add("¿eres una de las personas que ya está disfrutando de 'No Angel' de" +
     " Charli XCX sin anuncios? Contrata Spotify Premium para ser parte de ellos!");
-    return recomBasico;
+    return recomBasico.get(dia);
   }
 
   /**
    * Crea las recomendaciones de contenido de Spotify en su versión premium.
+   * @param dia el día determina que recomendacion se emite.
    */
-  @Override public ArrayList<String> recomPremium(){
+  public String recomendacionPremium(int dia){
     ArrayList<String> recomPremium = new ArrayList<String>();
     recomPremium.add("Charli XCX acaba de salvar al pop con su nuevo single 'No Angel'." +
     " Escúchalo ahora en Spotify Premium.");
@@ -59,7 +57,6 @@ public class Spotify extends Plataforma{
     " no a la homofobia.");
     recomPremium.add("Solo las personas con mal gusto no han escuchado 'No Angel' de" +
     " Charli XCX, ¿tú ya lo hiciste? Disfrútala ahora en Spotify Premium.");
-    return recomPremium;
+    return recomPremium.get(dia);
   }
-
 }

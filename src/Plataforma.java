@@ -3,22 +3,16 @@ import java.util.ArrayList;
 /**
  * Clase que define las variables y el comportamiento de las distintas plataformas.
  * Implementa la interfaz InterfazPlataforma.
- * Es abstracta pues la no implementa todos los métodos de InterfazPlataforma.
+ * Es abstracta pues no implementa todos los métodos de InterfazPlataforma.
  */
 public abstract class Plataforma implements InterfazPlataforma{
 
   /* El nombre de la plataforma. */
   private String nombre;
   /* El costo de la versión normal de la plataforma. */
-  private double precio;
-  /* El costo de la versión premium de la plataforma. */
-  private double precioPremium;
+  private int precio;
   /* La lista de usuarios de la plataforma. */
   private ArrayList<Usuario> usuarios;
-  /* Las recomendaciones que se dan cuando se tiene el servicio normal. */
-  private ArrayList<String> recomendacionPremium;
-  /* Las recomendaciones que se dan cuando se tiene el servicio premium. */
-  private ArrayList<String> recomendacionBasico;
 
   /**
    * Define el nombre de la plataforma.
@@ -48,24 +42,8 @@ public abstract class Plataforma implements InterfazPlataforma{
    * Regresa el precio de la plataforma.
    * @return el precio de la plataforma.
    */
-  public double getPrecio(){
+  public int getPrecio(){
     return this.precio;
-  }
-
-  /**
-   * Define el precio de la plataforma en su versión premium.
-   * @param precioPremium el nuevo precio de la plataforma en su versión premium.
-   */
-  public void setPrecioPremium(double precioPremium){
-    this.precioPremium = precioPremium;
-  }
-
-  /**
-   * Regresa el precio de la plataforma en su versión premium.
-   * @return el precio de la plataforma en su versión premium.
-   */
-  public double getPrecioPremium(){
-    return this.precioPremium;
   }
 
   /**
@@ -85,41 +63,24 @@ public abstract class Plataforma implements InterfazPlataforma{
   }
 
   /**
-   * Define las recomendaciones que da la plataforma cuando el servicio es premium.
-   * @param recomPremium las nuevas recomendaciones de la plataforma.
-   */
-  public void setRecomPremium(ArrayList<String> recomPremium){
-    this.recomendacionPremium = recomPremium;
-  }
-
-  /**
-   * Regresa las recomendaciones de la plataforma en modo premium.
-   * @return las recomendaciones de la plataforma en modo premium.
-   */
-  public ArrayList<String> getRecomPremium(){
-    return this.recomendacionPremium;
-  }
-
-  /**
-   * Define las recomendaciones que da la plataforma cuando el servicio es básico.
-   * @param recomBasico las nuevas recomendaciones de la plataforma.
-   */
-  public void setRecomBasico(ArrayList<String> recomBasico){
-    this.recomendacionBasico = recomBasico;
-  }
-
-  /**
-   * Regresa las recomendaciones de la plataforma en modo básico.
-   * @return las recomendaciones de la plataforma en modo básico.
-   */
-  public ArrayList<String> getRecomBasico(){
-    return this.recomendacionBasico;
-  }
-
-  /**
    * Cobra el monto diario de la plataforma al usuario.
+   * @param usuario el usuario al que se le realiza el cobro.
+   * @param dia el día en que se realiza el cobro.
    */
-  @Override public void cobrar(){
+  @Override public void cobrar(Usuario usuario, int dia){
+    if(dia == 1)
+      return;
+    if(usuario.getDinero() < this.getPrecio()){
+      usuario.getNotificaciones().add(String.format("%s, te informamos que tu suscripción a %s" +
+                                    " ha sido cancelada por incumplimiento con el pago.",
+                                    usuario.getNombre(), this.getNombre()));
+      //usuario.getSuscripciones().remove(this);
+      this.remover(usuario);
+    }else{
+      usuario.setDinero(usuario.getDinero() - this.getPrecio());
+      usuario.getNotificaciones().add(String.format("%s, se te han cobrado $%d del servicio de %s",
+                                       usuario.getNombre(), this.getPrecio(), this.getNombre()));
+    }
 
   }
 
@@ -128,7 +89,9 @@ public abstract class Plataforma implements InterfazPlataforma{
    * @param usuario el usuario a registrar.
    */
   @Override public void registrar(Usuario usuario){
-
+    this.getUsuarios().add(usuario);
+    usuario.getNotificaciones().add(String.format("Hola, %s. Te damos la bienvenida "
+    + "al servicio de %s", usuario.getNombre(), this.getNombre()));
   }
 
   /**
@@ -136,14 +99,19 @@ public abstract class Plataforma implements InterfazPlataforma{
    * @param usuario el usuario a remover.
    */
   @Override public void remover(Usuario usuario){
-
+    this.getUsuarios().remove(usuario);
   }
 
   /**
    * Les da una recomendacion de contenido a los usuarios en la base de datos
    * de la plataforma.
+   * @param usuario el usuario al que se le hace la recomendación.
    */
-  @Override public void recomendar(){
+  @Override public void recomendar(Usuario usuario, int dia){
+    usuario.getNotificaciones().add(String.format("Hey %s, %s", usuario.getNombre(),
+                                  this.daRecomendacion(dia)));
+  }
 
+  @Override public void notificar(){
   }
 }

@@ -13,33 +13,18 @@ public class Usuario implements InterfazUsuario{
   /* La lista de suscripciones del usuario. */
   private ArrayList<Plataforma> suscripciones;
 
-  /**
-   * Define el estado incial de un usuario con los valores default.
-   */
-  public Usuario(){
-    this.nombre = "";
-    this.dinero = 0;
-    this.suscripciones = new ArrayList<Plataforma>();
-  }
+  private ArrayList<String> notificaciones;
 
   /**
    * Define el estado inicial de un usuario con los valores recibidos.
    * @param nombre el nombre del usuario.
-   * @param dinero el dinero del usuario.
-   * @param suscribirse la lista de suscripciones del usuario.
+   * @param dinero el dinero inicial del usuario.
    */
-  public Usuario(String nombre, int dinero, ArrayList<Plataforma> suscripciones){
+  public Usuario(String nombre, int dinero){
     this.nombre = nombre;
     this.dinero = dinero;
-    this.suscripciones = suscripciones;
-  }
-
-  /**
-   * Define el nombre del usuario.
-   * @param nombre el nuevo nombre del usuario.
-   */
-  public void setNombre(String nombre){
-    this.nombre = nombre;
+    this.suscripciones = new ArrayList<Plataforma>();
+    this.notificaciones = new ArrayList<String>();
   }
 
   /**
@@ -67,14 +52,6 @@ public class Usuario implements InterfazUsuario{
   }
 
   /**
-   * Define las suscripciones del usuario.
-   * @param suscripciones las nuevas suscripciones del usuario.
-   */
-  public void setSuscripciones(ArrayList<Plataforma> suscripciones){
-    this.suscripciones = suscripciones;
-  }
-
-  /**
    * Regresa las suscripciones del usuario.
    * @return las suscripciones del usuario.
    */
@@ -82,12 +59,17 @@ public class Usuario implements InterfazUsuario{
     return this.suscripciones;
   }
 
+  public ArrayList<String> getNotificaciones(){
+    return this.notificaciones;
+  }
+
   /**
    * Suscribe al usuario a la plataforma.
    * @param plataforma la plataforma a la que se suscribe el usuario.
    */
   public void suscribirse(Plataforma plataforma){
-
+    this.getSuscripciones().add(plataforma);
+    plataforma.registrar(this);
   }
 
   /**
@@ -95,7 +77,10 @@ public class Usuario implements InterfazUsuario{
    * @param plataforma la plataforma de la que se desuscribe el usuario.
    */
   public void desuscribirse(Plataforma plataforma){
-
+    this.getSuscripciones().remove(plataforma);
+    plataforma.remover(this);
+    System.out.println(String.format("%s, te has desuscrito del servicio de %s.",
+                                     this.getNombre(), plataforma.getNombre()));
   }
 
   /**
@@ -103,7 +88,7 @@ public class Usuario implements InterfazUsuario{
    * @param plataforma la plataforma a la que el usuario paga.
    */
   public void pagar(int dia, Plataforma plataforma){
-
+    plataforma.cobrar(this, dia);
   }
 
   /**
@@ -122,11 +107,16 @@ public class Usuario implements InterfazUsuario{
 
   }
 
+  public void getRecomendacion(Plataforma plataforma, int dia){
+    plataforma.recomendar(this, dia);
+  }
+
   /**
    * Actualiza el estado del usuario cuando el observable al que está asociado
    * tiene una modificación o emite una notificación.
    */
-  @Override public void update(){
-
+  @Override public void update(int dia){
+    for(String notificacion : this.getNotificaciones())
+      System.out.println(notificacion);
   }
 }
