@@ -26,7 +26,7 @@ public class Simulacion{
         ana.getRecomendacion(p, dia);
       for(Plataforma p : ana.getSuscripciones())
         ana.pagar(dia, p);
-      ana.update(dia);
+      ana.update();
       ana.getNotificaciones().clear();
       System.out.println("\n");
       dia++;

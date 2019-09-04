@@ -2,9 +2,9 @@ import java.util.ArrayList;
 
 /**
  * Clase que define a los usuarios de la simulacion.
- * Implementa la interfaz InterfazUsuario.
+ * Implementa la interfaz Observador.
  */
-public class Usuario implements InterfazUsuario{
+public class Usuario implements Observador{
 
   /* El nombre del usuario. */
   private String nombre;
@@ -115,7 +115,7 @@ public class Usuario implements InterfazUsuario{
    * Actualiza el estado del usuario cuando el observable al que está asociado
    * tiene una modificación o emite una notificación.
    */
-  @Override public void update(int dia){
+  @Override public void update(){
     for(String notificacion : this.getNotificaciones())
       System.out.println(notificacion);
   }
