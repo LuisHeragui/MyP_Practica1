@@ -51,7 +51,7 @@ public class Youtube extends Plataforma{
     " YouTube Music!!!!!!!! Escúchalo ahora ysin anuncios.");
     recomPremium.add("Descarga 'Fuck it i love you/The greatest', el más reciente"+
     " video de Lana Del Rey, y disfruta de él donde sea!");
-    recomPremium.add("¿Ya estas viendo 'I'm Poppy'? Disfruta de está peliucla original de" +
+    recomPremium.add("¿Ya estas viendo 'I'm Poppy'? Disfruta de está película original de" +
     " YouTube Red ahora.");
     recomPremium.add("#WatchImPoppyByPoppyForSalvation en YouTube Premium.");
     recomPremium.add("Mira el video de 'Doin Time' y disfruta de una Lana Del Rey" +

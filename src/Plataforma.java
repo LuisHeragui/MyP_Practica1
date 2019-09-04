@@ -72,10 +72,10 @@ public abstract class Plataforma implements InterfazPlataforma{
       return;
     if(usuario.getDinero() < this.getPrecio()){
       usuario.getNotificaciones().add(String.format("%s, te informamos que tu suscripción a %s" +
-                                    " ha sido cancelada por incumplimiento con el pago.",
-                                    usuario.getNombre(), this.getNombre()));
-      //usuario.getSuscripciones().remove(this);
-      this.remover(usuario);
+                                      " ha sido cancelada por incumplimiento con el pago.",
+                                      usuario.getNombre(), this.getNombre()));
+      usuario.getSuscripciones().remove(this);
+      this.getUsuarios().remove(usuario);
     }else{
       usuario.setDinero(usuario.getDinero() - this.getPrecio());
       usuario.getNotificaciones().add(String.format("%s, se te han cobrado $%d del servicio de %s",

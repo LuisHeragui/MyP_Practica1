@@ -12,7 +12,7 @@ public class Usuario implements InterfazUsuario{
   private int dinero;
   /* La lista de suscripciones del usuario. */
   private ArrayList<Plataforma> suscripciones;
-
+  /* La lista de notificaciones que recibe el usuario. */
   private ArrayList<String> notificaciones;
 
   /**
@@ -79,8 +79,8 @@ public class Usuario implements InterfazUsuario{
   public void desuscribirse(Plataforma plataforma){
     this.getSuscripciones().remove(plataforma);
     plataforma.remover(this);
-    System.out.println(String.format("%s, te has desuscrito del servicio de %s.",
-                                     this.getNombre(), plataforma.getNombre()));
+    this.getNotificaciones().add(String.format("%s, te has desuscrito del servicio de %s.",
+                                 this.getNombre(), plataforma.getNombre()));
   }
 
   /**
@@ -88,7 +88,9 @@ public class Usuario implements InterfazUsuario{
    * @param plataforma la plataforma a la que el usuario paga.
    */
   public void pagar(int dia, Plataforma plataforma){
-    plataforma.cobrar(this, dia);
+    if(plataforma.getUsuarios().contains(this))
+      plataforma.cobrar(this, dia);
+    return;
   }
 
   /**
@@ -115,8 +117,15 @@ public class Usuario implements InterfazUsuario{
    * Actualiza el estado del usuario cuando el observable al que está asociado
    * tiene una modificación o emite una notificación.
    */
-  @Override public void update(int dia){
+  @Override public void update(){
     for(String notificacion : this.getNotificaciones())
       System.out.println(notificacion);
+  }
+
+  public ArrayList<Plataforma> creaCopiaSuscripciones(){
+    ArrayList<Plataforma> copia = new ArrayList<Plataforma>();
+    for(Plataforma p: this.getSuscripciones())
+      copia.add(p);
+    return copia;
   }
 }
