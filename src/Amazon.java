@@ -16,6 +16,12 @@ public class Amazon extends Plataforma{
     this.setUsuarios(new ArrayList<Usuario>());
   }
 
+  @Override public int getPrecioPlan(int plan){
+    if(plan == 0)
+      return 7;
+    return 13;
+  }
+
   /**
    * Emite una recomendación de contenido de Amazon Prime Video hacia el usuario.
    */

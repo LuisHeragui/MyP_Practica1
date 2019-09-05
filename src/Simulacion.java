@@ -12,25 +12,47 @@ public class Simulacion{
     Plataforma amazon = new Amazon();
     Plataforma youtube = new Youtube();
 
-    Usuario ana = new Usuario("Ana", 50);
-    ana.suscribirse(spotify);
-    ana.suscribirse(netflix);
-    ana.suscribirse(amazon);
-    ana.suscribirse(youtube);
+    Usuario alicia = new Usuario("Alicia", 500);
+    alicia.suscribirse(spotify, 9);
+    alicia.suscribirse(netflix, 4);
+    alicia.suscribirse(amazon, 9);
+    alicia.suscribirse(youtube, 9);
 
-    Usuario bob = new Usuario("Bob", 50);
-    bob.suscribirse(spotify);
-    ArrayList<Plataforma> copiaSuscripciones = ana.creaCopiaSuscripciones();
-    ana.desuscribirse(youtube);
+    Usuario bob = new Usuario("Bob", 40);
+    bob.suscribirse(spotify, 9);
+    bob.suscribirse(netflix, 4);
+    bob.suscribirse(amazon, 9);
+    bob.suscribirse(youtube, 9);
+
+    Usuario cesar = new Usuario("César", 40);
+    cesar.suscribirse(spotify, 9);
+    cesar.suscribirse(youtube, 0);
+
+    Usuario diego = new Usuario("Diego", 80);
+    diego.suscribirse(netflix, 2);
+    diego.suscribirse(amazon, 9);
+
+    Usuario erika = new Usuario("Erika", 300);
+    erika.suscribirse(spotify, 0);
+    erika.suscribirse(netflix, 4);
+    erika.suscribirse(youtube, 0);
 
     while(dia <= 5){
+      if(dia == 2){
+        erika.upgradeSuscripcion(youtube, 9);
+        erika.upgradeSuscripcion(spotify, 9);
+      }
+      if(dia == 3){
+        diego.suscribirse(spotify, 0);
+        erika.desuscribirse(netflix);
+        erika.suscribirse(amazon, 9);
+      }
       System.out.println("DIA " + dia + "\n");
-      for(Plataforma p : ana.getSuscripciones())
-        ana.getRecomendacion(p, dia);
-      for(Plataforma p : copiaSuscripciones)
-        ana.pagar(dia, p);
-      ana.update();
-      ana.getNotificaciones().clear();
+      alicia.simula(dia);
+      bob.simula(dia);
+      cesar.simula(dia);
+      diego.simula(dia);
+      erika.simula(dia);
       System.out.println("\n");
       dia++;
     }

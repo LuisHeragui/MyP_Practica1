@@ -16,6 +16,14 @@ public class Netflix extends Plataforma{
     this.setUsuarios(new ArrayList<Usuario>());
   }
 
+  @Override public int getPrecioPlan(int plan){
+    if(plan == 1)
+      return 7;
+    else if(plan == 2)
+      return 10;
+    return 15;
+  }
+
   /**
    * Emite una recomendación de contenido de Netflix hacia el usuario.
    */

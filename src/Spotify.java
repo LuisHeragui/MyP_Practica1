@@ -16,6 +16,12 @@ public class Spotify extends Plataforma{
     this.setUsuarios(new ArrayList<Usuario>());
   }
 
+  @Override public int getPrecioPlan(int plan){
+    if(plan == 0)
+      return 0;
+    return 4;
+  }
+
   /**
    * Emite una recomendación de contenido de Spotify hacia el usuario.
    */

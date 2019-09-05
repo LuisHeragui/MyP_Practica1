@@ -15,6 +15,8 @@ public class Usuario implements Observador{
   /* La lista de notificaciones que recibe el usuario. */
   private ArrayList<String> notificaciones;
 
+  private ArrayList<Integer> tipoDePlan;
+
   /**
    * Define el estado inicial de un usuario con los valores recibidos.
    * @param nombre el nombre del usuario.
@@ -25,6 +27,7 @@ public class Usuario implements Observador{
     this.dinero = dinero;
     this.suscripciones = new ArrayList<Plataforma>();
     this.notificaciones = new ArrayList<String>();
+    this.tipoDePlan = new ArrayList<Integer>();
   }
 
   /**
@@ -63,13 +66,21 @@ public class Usuario implements Observador{
     return this.notificaciones;
   }
 
+  public ArrayList<Integer> getTipoDePlan(){
+    return this.tipoDePlan;
+  }
+
   /**
    * Suscribe al usuario a la plataforma.
    * @param plataforma la plataforma a la que se suscribe el usuario.
    */
-  public void suscribirse(Plataforma plataforma){
+  public void suscribirse(Plataforma plataforma, int tipoDePlan){
     this.getSuscripciones().add(plataforma);
+    this.getTipoDePlan().add(tipoDePlan);
     plataforma.registrar(this);
+    this.getNotificaciones().add(String.format("Hola, %s. Te damos la bienvenida "
+    + "al servicio de %s%s.", this.getNombre(), plataforma.getNombre(),
+    this.getNombreTipoDePlan(plataforma)));
   }
 
   /**
@@ -77,7 +88,9 @@ public class Usuario implements Observador{
    * @param plataforma la plataforma de la que se desuscribe el usuario.
    */
   public void desuscribirse(Plataforma plataforma){
+    int plan = this.getSuscripciones().indexOf(plataforma);
     this.getSuscripciones().remove(plataforma);
+    this.getTipoDePlan().remove(plan);
     plataforma.remover(this);
     this.getNotificaciones().add(String.format("%s, te has desuscrito del servicio de %s.",
                                  this.getNombre(), plataforma.getNombre()));
@@ -90,23 +103,31 @@ public class Usuario implements Observador{
   public void pagar(int dia, Plataforma plataforma){
     if(plataforma.getUsuarios().contains(this))
       plataforma.cobrar(this, dia);
-    return;
   }
 
   /**
    * Suscribe al usuario a la version premium de la plataforma.
    * @param plataforma la plataforma de la que se quiere el servicio premium.
    */
-  public void upgradeSuscripcion(Plataforma plataforma){
-
+  public void upgradeSuscripcion(Plataforma plataforma, int plan){
+    int indicePlataforma = this.getSuscripciones().indexOf(plataforma);
+    this.getTipoDePlan().set(indicePlataforma, plan);
+    this.getNotificaciones().add(String.format("%s, has mejorado tu cuenta de %s." +
+    " Bienvenido al servicio de %s%s", this.getNombre(), plataforma.getNombre(),
+    plataforma.getNombre(), this.getNombreTipoDePlan(plataforma)));
   }
 
   /**
    * Cambia al usuario a la versión básica de la plataforma.
    * @param plataforma la plataforma de la que se quiere el servicio básico.
    */
-  public void downgradeSuscripcion(Plataforma plataforma){
-
+  public void downgradeSuscripcion(Plataforma plataforma, int plan){
+    String tipoDePlanViejo = this.getNombreTipoDePlan(plataforma);
+    int indicePlataforma = this.getSuscripciones().indexOf(plataforma);
+    this.getTipoDePlan().set(indicePlataforma, plan);
+    this.getNotificaciones().add(String.format("%s, has cambiado la configuración"+
+    " de tu cuenta de %s%s a %s%s.", this.getNombre(), plataforma.getNombre(),
+    tipoDePlanViejo, plataforma.getNombre(), this.getNombreTipoDePlan(plataforma)));
   }
 
   public void getRecomendacion(Plataforma plataforma, int dia){
@@ -127,5 +148,34 @@ public class Usuario implements Observador{
     for(Plataforma p: this.getSuscripciones())
       copia.add(p);
     return copia;
+  }
+
+  public String getNombreTipoDePlan(Plataforma plataforma){
+    int indicePlataforma = this.getSuscripciones().indexOf(plataforma);
+    int tipoDePlan = this.getTipoDePlan().get(indicePlataforma);
+    switch(tipoDePlan){
+      case 0:
+        return "";
+      case 9:
+        return " Premium";
+      case 1:
+        return " para 1 dispositivo";
+      case 2:
+        return " para 2 dispositivos";
+      case 4:
+        return " para 4 dispositivos";
+      default:
+        return "";
+    }
+  }
+
+  public void simula(int dia){
+    ArrayList<Plataforma> copiaSuscripciones = this.creaCopiaSuscripciones();
+    for(Plataforma p : copiaSuscripciones)
+      this.pagar(dia, p);
+    for(Plataforma p : this.getSuscripciones())
+      this.getRecomendacion(p, dia);
+    this.update();
+    this.getNotificaciones().clear();
   }
 }

@@ -38,12 +38,14 @@ public abstract class Plataforma implements InterfazPlataforma{
     this.precio = precio;
   }
 
+  public abstract int getPrecioPlan(int plan);
+
   /**
    * Regresa el precio de la plataforma.
    * @return el precio de la plataforma.
    */
-  public int getPrecio(){
-    return this.precio;
+  public int getPrecio(int plan){
+    return this.getPrecioPlan(plan);
   }
 
   /**
@@ -70,16 +72,21 @@ public abstract class Plataforma implements InterfazPlataforma{
   @Override public void cobrar(Usuario usuario, int dia){
     if(dia == 1)
       return;
-    if(usuario.getDinero() < this.getPrecio()){
-      usuario.getNotificaciones().add(String.format("%s, te informamos que tu suscripción a %s" +
+    int indicePlataforma = usuario.getSuscripciones().indexOf(this);
+    int tipoDePlan = usuario.getTipoDePlan().get(indicePlataforma);
+    if(usuario.getDinero() < this.getPrecio(tipoDePlan)){
+      usuario.getNotificaciones().add(String.format("%s, te informamos que tu suscripción a %s%s" +
                                       " ha sido cancelada por incumplimiento con el pago.",
-                                      usuario.getNombre(), this.getNombre()));
+                                      usuario.getNombre(),this.getNombre(),
+                                      usuario.getNombreTipoDePlan(this)));
+      usuario.getTipoDePlan().remove(usuario.getSuscripciones().indexOf(this));
       usuario.getSuscripciones().remove(this);
       this.getUsuarios().remove(usuario);
     }else{
-      usuario.setDinero(usuario.getDinero() - this.getPrecio());
-      usuario.getNotificaciones().add(String.format("%s, se te han cobrado $%d del servicio de %s",
-                                       usuario.getNombre(), this.getPrecio(), this.getNombre()));
+      usuario.setDinero(usuario.getDinero() - this.getPrecio(tipoDePlan));
+      usuario.getNotificaciones().add(String.format("%s, se te han cobrado $%d del servicio de %s%s.",
+                                       usuario.getNombre(), this.getPrecio(tipoDePlan), this.getNombre(),
+                                       usuario.getNombreTipoDePlan(this)));
     }
 
   }
@@ -90,8 +97,6 @@ public abstract class Plataforma implements InterfazPlataforma{
    */
   @Override public void registrar(Usuario usuario){
     this.getUsuarios().add(usuario);
-    usuario.getNotificaciones().add(String.format("Hola, %s. Te damos la bienvenida "
-    + "al servicio de %s", usuario.getNombre(), this.getNombre()));
   }
 
   /**

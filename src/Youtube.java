@@ -16,6 +16,12 @@ public class Youtube extends Plataforma{
     this.setUsuarios(new ArrayList<Usuario>());
   }
 
+  @Override public int getPrecioPlan(int plan){
+    if(plan == 0)
+      return 0;
+    return 6;
+  }
+
   /**
    * Emite una recomendación de contenido de Spotify hacia el usuario.
    */
@@ -48,7 +54,7 @@ public class Youtube extends Plataforma{
   public String recomendacionPremium(int dia){
     ArrayList<String> recomPremium = new ArrayList<String>();
     recomPremium.add("'Norman Fucking Rockwell!' de Lana Del Rey ha llegado a"+
-    " YouTube Music!!!!!!!! Escúchalo ahora ysin anuncios.");
+    " YouTube Music!!!!!!!! Escúchalo ahora y sin anuncios.");
     recomPremium.add("Descarga 'Fuck it i love you/The greatest', el más reciente"+
     " video de Lana Del Rey, y disfruta de él donde sea!");
     recomPremium.add("¿Ya estas viendo 'I'm Poppy'? Disfruta de está película original de" +
