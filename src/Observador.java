@@ -2,7 +2,7 @@
  * Interfaz que define el método update(). Nos permite seguir el patrón de
  * diseño Observer.
  */
-public interface InterfazUsuario{
+public interface Observador {
 
   /**
    * Método que nos permite modificar los objetos vinculados a un sujeto
