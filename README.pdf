@@ -1,0 +1,22 @@
+﻿Modelado y Programación
+=======================
+
+Práctica 1: Simulación de aplicaciones de streaming usando los patrones de diseño Strategy y Observer.
+------------------------------------------------------------------------------------------------------
+
+Integrantes:
+- Hernández Aguilar Luis Alberto, 314208682
+- Alvarado Torres David, 
+
+### Fecha de entrega: viernes 6 de septiembre, 2019.
+
+### Uso:
+Compilamos la práctica y generamos un archivo .jar con:
+
+```
+$ ant practica1.jar
+```
+
+Ejecutamos con:
+```
+$java -jar practica1.jar
