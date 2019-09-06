@@ -28,31 +28,22 @@ public class Amazon extends Plataforma {
     }
 
     /**
-     * Emite una recomendación de contenido de la plataforma hacia el usuario.
-     * @param usuario el usuario a quién se le hará la recomendación.
-     * @param dia el día para determinar la recomendación que se dará.
-     * @return una recomendación de contenido para el usuario.
-     */
-    @Override public String daRecomendacion(Usuario usuario, int dia) {
-        int indicePlataforma = usuario.getSuscripciones().indexOf(this);
-        int plan = usuario.getPlanes().get(indicePlataforma);
-        if (plan == 0)
-            return this.recomendacionBasico(dia);
-        return this.recomendacionPremium(dia);
-    }
-
-    /**
      * Crea las recomendaciones de contenido de Amazon en su versión básica.
      * @param dia el día para determinar la recomendación que se dará.
      * @return una recomendación de contenido para el usuario.
      */
     public String recomendacionBasico(int dia) {
         ArrayList<String> recomBasico = new ArrayList<String>();
-        recomBasico.add("cacacacaca");
-        recomBasico.add("");
-        recomBasico.add("");
-        recomBasico.add("");
-        recomBasico.add("");
+        recomBasico.add("Te sugerimos ver \"The Boys\", sólo en Amazon Prime " +
+                        "Video.");
+        recomBasico.add("Adquiere el plan Premium para poder tener 100 " +
+                        "dispositivos conectados a la vez.");
+        recomBasico.add("Te sugerimos ver \"Good Omens\", sólo en Amazon " +
+                        "Prime Video.");
+        recomBasico.add("Actualiza tu plan a Premium para mejor cálidad de " +
+                        "video.");
+        recomBasico.add("Te sugerimos ver \"Jack Ryan\", sólo en Amazon Prime" +
+                        " Video.");
         return recomBasico.get(dia - 1);
     }
 
@@ -63,11 +54,16 @@ public class Amazon extends Plataforma {
      */
     public String recomendacionPremium(int dia) {
         ArrayList<String> recomPremium = new ArrayList<String>();
-        recomPremium.add("");
-        recomPremium.add("");
-        recomPremium.add("");
-        recomPremium.add("");
-        recomPremium.add("");
+        recomPremium.add("Te sugerimos ver \"Jack Ryan\", sólo en Amazon " +
+                         "Prime Video.");
+        recomPremium.add("Te sugerimos ver \"Good Omens\", sólo en Amazon " +
+                         "Prime Video.");
+        recomPremium.add("Te sugerimos ver \"Bosch\", sólo en Amazon " +
+                         "Prime Video.");
+        recomPremium.add("Te sugerimos ver \"The Grand Tour\", sólo en " +
+                         "Amazon Prime Video.");
+        recomPremium.add("Te sugerimos ver \"The Boys\", sólo en Amazon Prime" +
+                         " Video.");
         return recomPremium.get(dia - 1);
   }
 

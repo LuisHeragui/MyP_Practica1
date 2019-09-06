@@ -28,21 +28,6 @@ public class Spotify extends Plataforma {
     }
 
     /**
-     * Emite una recomendación de contenido de la plataforma hacia el usuario.
-     * @param usuario el usuario a quién se le hará la recomendación.
-     * @param dia el día para determinar la recomendación que se dará.
-     * @return una recomendación de contenido para el usuario.
-     */
-    @Override public String daRecomendacion(Usuario usuario, int dia) {
-        int indicePlataforma = usuario.getSuscripciones().indexOf(this);
-        int plan = usuario.getPlanes().get(indicePlataforma);
-        int precio = this.getPrecio(plan);
-        if (precio == 0)
-            return this.recomendacionBasico(dia);
-        return this.recomendacionPremium(dia);
-    }
-
-    /**
      * Crea las recomendaciones de contenido de Spotify en su versión básica.
      * @param dia el día para determinar la recomendación que se dará.
      * @return una recomendación de contenido para el usuario.

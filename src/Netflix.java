@@ -53,18 +53,16 @@ public class Netflix extends Plataforma {
         return recomendaciones.get(dia - 1);
     }
 
-    ///**
-    // * Crea las recomendaciones de contenido de Netflix en su versión básica.
-    // * @param dia el día para determinar la recomendación que se dará.
-    // * @return una recomendación de contenido para el usuario.
-    // */
-    //@Override public String recomendacionBasico(int dia) { return ""; }
+    /**
+     * El método no es necesario, pues Netflix no tiene distintos tipos de
+     * recomendaciones.
+     */
+    @Override public String recomendacionBasico(int dia) { return ""; }
 
-    ///**
-    // * Crea las recomendaciones de contenido de Netflix en su versión premium.
-    // * @param dia el día para determinar la recomendación que se dará.
-    // * @return una recomendación de contenido para el usuario.
-    // */
-    //@Override public String recomendacionPremium(int dia) { return ""; }
+    /**
+     * El método no es necesario, pues Netflix no tiene distintos tipos de
+     * recomendaciones.
+     */
+    @Override public String recomendacionPremium(int dia) { return ""; }
 
 }

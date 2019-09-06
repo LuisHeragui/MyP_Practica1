@@ -5,7 +5,6 @@ public class Simulacion {
     public static void main(String[] args) {
 
         int dia = 1;
-        Simulacion s = new Simulacion();
 
         Plataforma spotify = new Spotify();
         Plataforma netflix = new Netflix();
@@ -38,6 +37,7 @@ public class Simulacion {
         erika.suscribirse(youtube, 0);
 
         while(dia <= 5) {
+            System.out.println("");
             if(dia == 2) {
                 erika.upgradeSuscripcion(youtube, 9);
                 erika.upgradeSuscripcion(spotify, 9);
@@ -57,7 +57,7 @@ public class Simulacion {
             diego.simula(dia);
             System.out.println("");
             erika.simula(dia);
-            System.out.println("\n");
+            System.out.println("____________");
             dia++;
         }
     }

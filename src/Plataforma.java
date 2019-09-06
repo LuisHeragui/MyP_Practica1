@@ -92,7 +92,13 @@ public abstract class Plataforma implements InterfazPlataforma {
      * @param dia el día para determinar la recomendación que se dará.
      * @return una recomendación de contenido para el usuario.
      */
-    public abstract String daRecomendacion(Usuario usuario, int dia);
+    @Override public String daRecomendacion(Usuario usuario, int dia) {
+        int indicePlataforma = usuario.getSuscripciones().indexOf(this);
+        int plan = usuario.getPlanes().get(indicePlataforma);
+        if (plan == 0)
+            return this.recomendacionBasico(dia);
+        return this.recomendacionPremium(dia);
+    }
 
     /**
      * Le notifica al usuario que ocurrió un evento. Ya sea que se efectuó un
@@ -113,24 +119,25 @@ public abstract class Plataforma implements InterfazPlataforma {
     @Override public void recomendar(Usuario usuario, int dia) {
         String mensaje = String.format("¡Hey %s! %s", usuario.getNombre(),
                                        this.daRecomendacion(usuario, dia));
+        usuario.getNotificaciones().add(mensaje);
     }
 
-    ///**
-    // * Crea las recomendaciones de contenido de la plataforma en su versión
-    // * básica.
-    // * @param dia el día para determinar la recomendación que se dará.
-    // * @return una recomendación de contenido para el usuario.
-    // */
-    //public abstract String recomendacionBasico(int dia);
+    /**
+     * Crea las recomendaciones de contenido de la plataforma en su versión
+     * básica.
+     * @param dia el día para determinar la recomendación que se dará.
+     * @return una recomendación de contenido para el usuario.
+     */
+    public abstract String recomendacionBasico(int dia);
 
 
-    ///**
-    // * Crea las recomendaciones de contenido de la plataforma en su versión
-    // * premium.
-    // * @param dia el día para determinar la recomendación que se dará.
-    // * @return una recomendación de contenido para el usuario.
-    // */
-    //public abstract String recomendacionPremium(int dia);
+    /**
+     * Crea las recomendaciones de contenido de la plataforma en su versión
+     * premium.
+     * @param dia el día para determinar la recomendación que se dará.
+     * @return una recomendación de contenido para el usuario.
+     */
+    public abstract String recomendacionPremium(int dia);
 
     /**
      * Registra al usuario en la base de datos de la plataforma.

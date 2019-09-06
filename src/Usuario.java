@@ -14,7 +14,7 @@ public class Usuario implements Observador {
     private ArrayList<Plataforma> suscripciones;
     /* La lista de notificaciones que recibe el usuario. */
     private ArrayList<String> notificaciones;
-
+    /* La lista de planes contratados por el usuario. */
     private ArrayList<Integer> planes;
 
     /**
@@ -62,14 +62,26 @@ public class Usuario implements Observador {
         return this.suscripciones;
     }
 
+    /**
+     * Regresa las notificaciones del usuario.
+     * @return las notificaciones del usuario.
+     */
     public ArrayList<String> getNotificaciones() {
         return this.notificaciones;
     }
 
+    /**
+     * Regresa los planes contratados del usuario.
+     * @return los planes contratados del usuario.
+     */
     public ArrayList<Integer> getPlanes() {
         return this.planes;
     }
 
+    /**
+     * Crea una copia de la lista de suscripciones del usuario.
+     * @return la copia de la lista de suscripciones del usuario.
+     */
     public ArrayList<Plataforma> creaCopiaSuscripciones() {
         ArrayList<Plataforma> copia = new ArrayList<Plataforma>();
         for (Plataforma p: this.getSuscripciones())
@@ -95,6 +107,7 @@ public class Usuario implements Observador {
     /**
      * Cambia al usuario a la versión básica de la plataforma.
      * @param plataforma la plataforma de la que se quiere el servicio básico.
+     * @param plan el nuevo plan de la suscripción.
      */
     public void downgradeSuscripcion(Plataforma plataforma, int plan) {
         String planViejo = this.getNombrePlan(plataforma);
@@ -108,6 +121,11 @@ public class Usuario implements Observador {
         this.getNotificaciones().add(mensaje);
     }
 
+    /**
+     * Regresa el nombre del plan contratado.
+     * @param plataforma la plataforma de la que queremos obtener el plan.
+     * @return el nombre del plan contratado.
+     */
     public String getNombrePlan(Plataforma plataforma) {
         int indicePlataforma = this.getSuscripciones().indexOf(plataforma);
         int plan = this.getPlanes().get(indicePlataforma);
@@ -127,6 +145,11 @@ public class Usuario implements Observador {
         }
     }
 
+    /**
+     * Solicita a la plataforma que brinde una recomendación.
+     * @param plataforma la plataforma de la que queremos la recomendación.
+     * @param dia el día que determina la recomendación que nos darán.
+     */
     public void getRecomendacion(Plataforma plataforma, int dia) {
         plataforma.recomendar(this, dia);
     }
@@ -140,6 +163,10 @@ public class Usuario implements Observador {
             plataforma.cobrar(this, dia);
     }
 
+    /**
+     * Realiza la simulación del día de un usuario.
+     * @param dia el día que se simulará.
+     */
     public void simula(int dia) {
         ArrayList<Plataforma> copiaSuscripciones = this.creaCopiaSuscripciones();
         for (Plataforma p : copiaSuscripciones)
