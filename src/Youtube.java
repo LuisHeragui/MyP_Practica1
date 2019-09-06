@@ -12,11 +12,10 @@ public class Youtube extends Plataforma{
    */
   public Youtube(){
     this.setNombre("YouTube");
-    this.setPrecio(0);
     this.setUsuarios(new ArrayList<Usuario>());
   }
 
-  @Override public int getPrecioPlan(int plan){
+  @Override public int getPrecio(int plan){
     if(plan == 0)
       return 0;
     return 6;
