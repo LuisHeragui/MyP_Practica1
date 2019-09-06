@@ -30,12 +30,6 @@ public abstract class Plataforma implements InterfazPlataforma {
     }
 
     /**
-     * Regresa el precio de la plataforma dependiendo del tipo de plan.
-     * @return el precio de la plataforma.
-     */
-    public abstract int getPrecio(int plan);
-
-    /**
      * Define la lista de usuarios de la plataforma.
      * @param usuarios los nuevos usuarios de la plataforma.
      */
@@ -52,6 +46,14 @@ public abstract class Plataforma implements InterfazPlataforma {
     }
 
     /**
+     * Regresa el precio de la plataforma dependiendo del tipo de plan
+     * contratado.
+     * @param plan el tipo de plan contratado.
+     * @return el precio de la plataforma.
+     */
+    public abstract int getPrecio(int plan);
+
+    /**
      * Cobra el monto diario de la plataforma al usuario.
      * @param usuario el usuario al que se le realiza el cobro.
      * @param dia el día en que se realiza el cobro.
@@ -60,29 +62,82 @@ public abstract class Plataforma implements InterfazPlataforma {
         if(dia == 1)
             return;
         int indicePlataforma = usuario.getSuscripciones().indexOf(this);
-        int tipoDePlan = usuario.getTipoDePlan().get(indicePlataforma);
+        int plan = usuario.getPlanes().get(indicePlataforma);
         String mensaje;
-        if (usuario.getDinero() < this.getPrecio(tipoDePlan)) {
+        if (usuario.getDinero() < this.getPrecio(plan)) {
             mensaje = String.format("%s, te informamos que tu suscripción a " +
                                     "%s%s ha sido cancelada por " +
                                     "incumplimiento con el pago.",
                                     usuario.getNombre(), nombre,
-                                    usuario.getNombreTipoDePlan(this));
+                                    usuario.getNombrePlan(this));
             usuario.getNotificaciones().add(mensaje);
-            usuario.getTipoDePlan().remove(usuario.getSuscripciones().
+            usuario.getPlanes().remove(usuario.getSuscripciones().
                                            indexOf(this));
             usuario.getSuscripciones().remove(this);
             usuarios.remove(usuario);
         } else {
             mensaje = String.format("%s, se te han cobrado $%d del servicio " +
                                     "de %s%s.", usuario.getNombre(),
-                                    this.getPrecio(tipoDePlan), nombre,
-                                    usuario.getNombreTipoDePlan(this));
-            usuario.setDinero(usuario.getDinero() - this.getPrecio(tipoDePlan));
+                                    this.getPrecio(plan), nombre,
+                                    usuario.getNombrePlan(this));
+            usuario.setDinero(usuario.getDinero() - this.getPrecio(plan));
             usuario.getNotificaciones().add(mensaje);
         }
 
     }
+
+    /**
+     * Emite una recomendación de contenido de la plataforma hacia el usuario.
+     * @param usuario el usuario a quién se le hará la recomendación.
+     * @param dia el día para determinar la recomendación que se dará.
+     * @return una recomendación de contenido para el usuario.
+     */
+    @Override public String daRecomendacion(Usuario usuario, int dia) {
+        int indicePlataforma = usuario.getSuscripciones().indexOf(this);
+        int plan = usuario.getPlanes().get(indicePlataforma);
+        if (plan == 0)
+            return this.recomendacionBasico(dia);
+        return this.recomendacionPremium(dia);
+    }
+
+    /**
+     * Le notifica al usuario que ocurrió un evento. Ya sea que se efectuó un
+     * pago, o que el usuario fue removido de la plataforma por falta de dinero,
+     * etc.
+     */
+    @Override public void notificar() {
+        for (Usuario usuario : usuarios)
+        usuario.update();
+    }
+
+    /**
+     * Les da una recomendacion de contenido a los usuarios en la base de datos
+     * de la plataforma.
+     * @param usuario el usuario al que se le hace la recomendación.
+     * @param dia el día para determinar la recomendación que se dará.
+     */
+    @Override public void recomendar(Usuario usuario, int dia) {
+        String mensaje = String.format("¡Hey %s! %s", usuario.getNombre(),
+                                       this.daRecomendacion(usuario, dia));
+        usuario.getNotificaciones().add(mensaje);
+    }
+
+    /**
+     * Crea las recomendaciones de contenido de la plataforma en su versión
+     * básica.
+     * @param dia el día para determinar la recomendación que se dará.
+     * @return una recomendación de contenido para el usuario.
+     */
+    public abstract String recomendacionBasico(int dia);
+
+
+    /**
+     * Crea las recomendaciones de contenido de la plataforma en su versión
+     * premium.
+     * @param dia el día para determinar la recomendación que se dará.
+     * @return una recomendación de contenido para el usuario.
+     */
+    public abstract String recomendacionPremium(int dia);
 
     /**
      * Registra al usuario en la base de datos de la plataforma.
@@ -98,20 +153,5 @@ public abstract class Plataforma implements InterfazPlataforma {
      */
     @Override public void remover(Usuario usuario) {
         this.getUsuarios().remove(usuario);
-    }
-
-    /**
-     * Les da una recomendacion de contenido a los usuarios en la base de datos
-     * de la plataforma.
-     * @param usuario el usuario al que se le hace la recomendación.
-     */
-    @Override public void recomendar(Usuario usuario, int dia) {
-        String mensaje = String.format("¡Hey %s! %s", usuario.getNombre(),
-                                       this.daRecomendacion(dia));
-    }
-
-    @Override public void notificar() {
-        for (Usuario usuario : usuarios)
-            usuario.update();
     }
 }
