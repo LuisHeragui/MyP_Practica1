@@ -12,11 +12,10 @@ public class Amazon extends Plataforma{
    */
   public Amazon(){
     this.setNombre("Amazon Prime Video");
-    this.setPrecio(9);
     this.setUsuarios(new ArrayList<Usuario>());
   }
 
-  @Override public int getPrecioPlan(int plan){
+  @Override public int getPrecio(int plan){
     if(plan == 0)
       return 7;
     return 13;

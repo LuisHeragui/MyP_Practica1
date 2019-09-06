@@ -12,11 +12,10 @@ public class Netflix extends Plataforma{
    */
   public Netflix(){
     this.setNombre("Netflix");
-    this.setPrecio(12);
     this.setUsuarios(new ArrayList<Usuario>());
   }
 
-  @Override public int getPrecioPlan(int plan){
+  @Override public int getPrecio(int plan){
     if(plan == 1)
       return 7;
     else if(plan == 2)
