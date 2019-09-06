@@ -70,7 +70,7 @@ public abstract class Plataforma implements InterfazPlataforma {
                                     "incumplimiento con el pago.",
                                     usuario.getNombre(), nombre,
                                     usuario.getNombrePlan(this));
-            usuario.getNotificaciones().add(mensaje);
+            this.notificar(usuario, mensaje);
             usuario.getPlanes().remove(usuario.getSuscripciones().
                                            indexOf(this));
             usuario.getSuscripciones().remove(this);
@@ -81,7 +81,7 @@ public abstract class Plataforma implements InterfazPlataforma {
                                     this.getPrecio(plan), nombre,
                                     usuario.getNombrePlan(this));
             usuario.setDinero(usuario.getDinero() - this.getPrecio(plan));
-            usuario.getNotificaciones().add(mensaje);
+            this.notificar(usuario, mensaje);
         }
 
     }
@@ -105,9 +105,8 @@ public abstract class Plataforma implements InterfazPlataforma {
      * pago, o que el usuario fue removido de la plataforma por falta de dinero,
      * etc.
      */
-    @Override public void notificar() {
-        for (Usuario usuario : usuarios)
-        usuario.update();
+    @Override public void notificar(Usuario usuario, String notificacion){
+      usuario.getNotificaciones().add(notificacion);
     }
 
     /**
@@ -119,7 +118,7 @@ public abstract class Plataforma implements InterfazPlataforma {
     @Override public void recomendar(Usuario usuario, int dia) {
         String mensaje = String.format("¡Hey %s! %s", usuario.getNombre(),
                                        this.daRecomendacion(usuario, dia));
-        usuario.getNotificaciones().add(mensaje);
+        this.notificar(usuario, mensaje);
     }
 
     /**

@@ -6,7 +6,7 @@ Práctica 1: Simulación de aplicaciones de streaming usando los patrones de dis
 
 Integrantes:
 - Hernández Aguilar Luis Alberto, 314208682
-- Alvarado Torres David, 
+- Alvarado Torres David, 316167613
 
 ### Fecha de entrega: viernes 6 de septiembre, 2019.
 
@@ -20,3 +20,40 @@ $ ant practica1.jar
 Ejecutamos con:
 ```
 $java -jar practica1.jar
+------------------------------------------------------------------------------------------------------
+
+PARTE TEÓRICA
+
+1. Menciona los principios de diseño del patrón Strategy y Observer.
+   Menciona una desventaja de cada patrón.
+
+   STRATEGY:
+     El patrón de diseño Strategy define una familia de algoritmos, encapsula cada uno
+     y los hace intercambiables. Este patrón le permite al algorimo variar
+     independiente de los clientes que lo usan. Además, captura la abstracción, ocultando
+     los detalles de la implementación en clases derivada.
+
+     Una de las desventajas del patrón Strategy es que los clinetes deben saber de la
+     existencia de todas las estrategias, además de que tienen que enteder de que manera
+     se relacionan unas con otras.
+
+   OBSERVER:
+     El patrón de diseño Observer define una relacion "de uno a muchos", donde un objecto,
+     llamado el 'sujeto' mantiene una lista de dependientes, llamdados 'observadores', y los
+     notifica automaticamente de cualquier cambio en el estado del programa.
+
+     Una de las desventajes del patrón observer es que, como los observadores no tienen estado,
+     necesitamos bastantes de ellos para simular un estado. Tenemos que guardar dicho estado
+     donde sea accesible para todos los observadores.
+
+
+REFERENCIAS:
+
+    Ako-Aboagye, K. (2007). "Patterns: Strategy Patterns". 2019, de Blogspot en
+ http://bobcash20.blogspot.com/2007/05/strategy-pattern.html
+
+    Levy, D. (2005). "Observer Pattern". 2019, de Wikipedia Sitio, en
+ https://en.wikipedia.org/wiki/Observer_pattern
+
+    Ratnapala, A. (2014). "Why should the observer pattern be deprecated?". 2019, de Stack Overflow
+  en https://stackoverflow.com/questions/11619680/why-should-the-observer-pattern-be-deprecated

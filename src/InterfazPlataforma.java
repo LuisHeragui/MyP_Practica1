@@ -23,7 +23,7 @@ public interface InterfazPlataforma {
      * pago, o que el usuario fue removido de la plataforma por falta de dinero,
      * etc.
      */
-    public void notificar();
+    public void notificar(Usuario usuario, String notificacion);
 
     /**
      * Les da una recomendacion de contenido a los usuarios en la base de datos

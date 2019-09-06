@@ -101,7 +101,7 @@ public class Usuario implements Observador {
         String mensaje = String.format("%s, te has desuscrito del servicio " +
                                        "de %s.", this.getNombre(),
                                        plataforma.getNombre());
-        this.getNotificaciones().add(mensaje);
+        plataforma.notificar(this, mensaje);
     }
 
     /**
@@ -118,7 +118,7 @@ public class Usuario implements Observador {
                                        this.getNombre(), plataforma.getNombre(),
                                        planViejo, plataforma.getNombre(),
                                        this.getNombrePlan(plataforma));
-        this.getNotificaciones().add(mensaje);
+        plataforma.notificar(this, mensaje);
     }
 
     /**
@@ -189,7 +189,7 @@ public class Usuario implements Observador {
                                        "servicio de %s%s.", this.getNombre(),
                                        plataforma.getNombre(),
                                        this.getNombrePlan(plataforma));
-        this.getNotificaciones().add(mensaje);
+        plataforma.notificar(this, mensaje);
     }
 
     /**
@@ -214,7 +214,7 @@ public class Usuario implements Observador {
                                        plataforma.getNombre(),
                                        plataforma.getNombre(),
                                        this.getNombrePlan(plataforma));
-        this.getNotificaciones().add(mensaje);
+        plataforma.notificar(this, mensaje);
     }
 
 }
